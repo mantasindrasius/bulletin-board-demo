@@ -1,0 +1,17 @@
+{
+  "name": "bulletin-board",
+  "version": "0.0.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components"
+  ],
+  "dependencies": {
+    "dustjs-linkedin": "*",
+    "dustjs-linkedin-helpers": "*",
+    "promise-js": "*",
+    "chai": "*",
+    "diff-dom": "*",
+    "sinon": "*"
+  }
+}

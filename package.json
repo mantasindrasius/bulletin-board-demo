@@ -1,0 +1,23 @@
+{
+  "name": "bulletin-board",
+  "version": "0.0.1",
+  "devDependencies": {
+    "gulp": "*",
+    "bower": "*",
+    "gulp-karma": "*",
+    "karma-mocha": "*",
+    "karma-chai": "*",
+    "karma-spec-reporter": "*",
+    "phantomjs": "*",
+    "karma-phantomjs-launcher": "*",
+    "gulp-bower": "*",
+    "karma-sinon": "*"
+  },
+  "engines": {
+    "node": ">=0.8.0"
+  },
+  "scripts" : {
+    "test": "gulp",
+    "ci": "gulp ci"
+  }
+}
