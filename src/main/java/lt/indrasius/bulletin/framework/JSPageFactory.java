@@ -25,8 +25,15 @@ public class JSPageFactory {
         ScriptEngine engine = new ScriptEngineBuilder()
                 .withEventLoop(new EventLoop())
                 .withDOMFunctions()
+                .withFileSystemFunctions()
                 .withObjectMapper(mapper)
                 .withLoadedScript("bower_components/promise-js/promise.js")
+                .withLoadedScript("bower_components/dustjs-linkedin/dist/dust-full.js")
+                .withLoadedScript("bower_components/dustjs-linkedin-helpers/dist/dust-helpers.js")
+                .withLoadedScript("js/dust-template-loader.js")
+                .withLoadedScript("js/renderer.js")
+                .withLoadedScript("js/views/template-view.js")
+                .withScriptFromClassPath("server-side-init.js")
                 .newEngine();
 
         JSWrapperGenerator codeGenerator = new JSWrapperGenerator();

@@ -1,0 +1,6 @@
+<div>{title}</div>
+<div id="board-sections">
+    {#sections}
+        <div>{title}</div>
+    {/sections}
+</div>

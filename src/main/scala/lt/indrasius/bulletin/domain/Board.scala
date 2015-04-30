@@ -5,7 +5,6 @@ import scala.beans.BeanProperty
 /**
  * Created by mantas on 15.4.21.
  */
-@BeanProperty
-case class Board(title: String,
-                 sections: List[Section] = Nil,
-                 id: BoardId = BoardId.create)
+case class Board(@BeanProperty title: String,
+                 @BeanProperty sections: Array[Section] = Array(),
+                 @BeanProperty id: BoardId = BoardId.create)

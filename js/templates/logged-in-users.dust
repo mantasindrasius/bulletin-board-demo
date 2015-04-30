@@ -1,0 +1,3 @@
+<div id="logged-in-users">
+    {#users}<span>{.}</span>{/users}
+</div>

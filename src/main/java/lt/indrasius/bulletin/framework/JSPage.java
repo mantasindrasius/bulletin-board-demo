@@ -41,4 +41,22 @@ public class JSPage {
 
         return "ERROR";
     }
+
+    public String render() {
+        JSObject renderData = (JSObject) context.getMember("render");
+        Object promise = renderData.call(context, state);
+        Future<String> contentPromise = Promise.toFuture(promise);
+
+        try {
+            return contentPromise.get(2, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } catch (TimeoutException e) {
+            e.printStackTrace();
+        }
+
+        return "ERROR";
+    }
 }

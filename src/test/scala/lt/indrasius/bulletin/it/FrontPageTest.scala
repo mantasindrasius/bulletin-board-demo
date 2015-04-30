@@ -52,7 +52,7 @@ class FrontPageTest extends SpecWithJUnit with JsonMatchers {
     "have data collected" in new Context {
       val boardId = givenBoardExists {
         Board("Cool Board",
-          sections = List(
+          sections = Array(
             Section("Section 1", "Cool description"),
             Section("Section 2", "Super cool description")))
       }
@@ -68,6 +68,30 @@ class FrontPageTest extends SpecWithJUnit with JsonMatchers {
             hasSection("Section 2", "Super cool description")
         ) and haveElement(id = "data-sessions",
             withBodyThatIs = hasUserListOf("xyz", "def", "abc"))
+      }
+    }
+
+    "render the page with components" in new Context {
+      val boardId = givenBoardExists {
+        Board("Cool Board",
+          sections = Array(
+            Section("Section 1", "Cool description"),
+            Section("Section 2", "Super cool description")))
+      }
+
+      givenBoardIsVisitedBy(boardId, users = Seq("xyz", "def", "abc"))
+
+      page.setState(boardId.id)
+
+      val result = page.render
+
+      println(result)
+
+      result must {
+        haveElement(id = "board-sections",
+          withBodyThatIs = contain("Section 1")) and
+        haveElement(id = "logged-in-users",
+          withBodyThatIs = contain(">xyz<"))
       }
     }
   }
