@@ -42,13 +42,10 @@ public class JSPage {
         return "ERROR";
     }
 
-    public String render() {
-        JSObject renderData = (JSObject) context.getMember("render");
-        Object promise = renderData.call(context, state);
-        Future<String> contentPromise = Promise.toFuture(promise);
 
+    public String render() {
         try {
-            return contentPromise.get(2, TimeUnit.SECONDS);
+            return renderAsync().get(2, TimeUnit.SECONDS);
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
@@ -58,5 +55,11 @@ public class JSPage {
         }
 
         return "ERROR";
+    }
+
+    public Future<String> renderAsync() {
+        JSObject renderData = (JSObject) context.getMember("render");
+        Object promise = renderData.call(context, state);
+        return Promise.toFuture(promise);
     }
 }

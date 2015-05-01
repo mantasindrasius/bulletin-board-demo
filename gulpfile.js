@@ -52,8 +52,23 @@ gulp.task('karma', function(done) {
     karma.start(karmaConf, done);
 });
 
-gulp.task('compile-server', function() {
-    spawn('mvn', ['package']);
+gulp.task('compile-server', function(done) {
+    var mvn = spawn('mvn', ['package']);
+
+    mvn.stdout.on('data',
+        function (data) {
+            console.log(data.toString());
+        }
+    );
+
+    mvn.on('exit', function(code) {
+        console.log('compile finished with', code);
+
+        if (code != 0)
+            throw 'Maven exited with ' + code;
+
+        done();
+    });
 });
 
 gulp.task('ready-server', ['compile-server'], function(done) {
@@ -61,6 +76,13 @@ gulp.task('ready-server', ['compile-server'], function(done) {
 });
 
 gulp.task('server-e2e', ['ready-server'], function(done) {
+    gulp.start('run-server-e2e', function() {
+        server.stop();
+        done();
+    });
+});
+
+gulp.task('run-server-e2e', function(done) {
     karma.start({
         reporters: ['spec'],
         singleRun: true,
@@ -69,7 +91,10 @@ gulp.task('server-e2e', ['ready-server'], function(done) {
         frameworks: ['mocha', 'chai', 'sinon'],
         files: [
             'bower_components/promise-js/promise.js',
-            'js/http-client.js'
+            'bower_components/jquery/dist/jquery.js',
+            'js/spec/server-e2e/dom-parser-fix.js',
+            'js/http-client.js',
+            'js/spec/server-e2e/**/*.js'
         ],
         browsers: ['PhantomJS_without_security'],
         browserNoActivityTimeout: 1000,

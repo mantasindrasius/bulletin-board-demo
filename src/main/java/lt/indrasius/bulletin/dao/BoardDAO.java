@@ -13,7 +13,9 @@ public class BoardDAO {
     private ConcurrentMap<BoardId, Board> boards = new ConcurrentHashMap<>();
 
     public void store(Board board) {
-        boards.put(board.id(), board);
+        BoardId id = board.getId();
+
+        boards.put(id, board);
     }
 
     public Board get(BoardId id) {

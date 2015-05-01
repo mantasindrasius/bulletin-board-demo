@@ -18,6 +18,14 @@ import javax.script.ScriptException;
  */
 public class JSPageFactory {
     public JSPage getPage(String name) throws JSPageException {
+        return new JSPage(getContext(name));
+    }
+
+    public DataHandler getHandler(String name) throws JSPageException {
+        return new DataHandler(getContext(name));
+    }
+
+    private ScriptObjectMirror getContext(String name) throws JSPageException {
         ObjectMapper mapper = new ObjectMapper();
 
         mapper.registerModule(new DefaultScalaModule());
@@ -42,12 +50,13 @@ public class JSPageFactory {
         try {
             engine.put("getBoard", wrapper.wrap(Actions.getBoard()));
             engine.put("getSessions", wrapper.wrap(Actions.getSessions()));
+            engine.put("storeBoard", wrapper.wrap(Actions.storeBoard()));
 
             ScriptObjectMirror page = (ScriptObjectMirror) engine.eval("load('js/pages/" + name + ".js')");
             Object thiz = engine.eval("this");
             ScriptObjectMirror context = (ScriptObjectMirror) page.call(thiz);
 
-            return new JSPage(context);
+            return context;
         } catch (ScriptException e) {
             throw new JSPageException(e.getMessage(), e);
         }

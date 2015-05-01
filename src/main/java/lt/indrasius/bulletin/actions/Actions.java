@@ -10,6 +10,10 @@ public class Actions {
         return new GetBoardAction(DAOs.boardDAO());
     }
 
+    public static StoreBoardAction storeBoard() {
+        return new StoreBoardAction(DAOs.boardDAO());
+    }
+
     public static GetSessionsAction getSessions() {
         return new GetSessionsAction(DAOs.sessionDAO());
     }

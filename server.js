@@ -1,13 +1,22 @@
 var http = require('http');
 var spawn = require('child_process').spawn;
 
-function Server() {
-    this.start = function(filename, cb) {
-        spawn('java', ['-jar', filename]);
+var java = '/media/DevZone/jdk1.8.0_40/bin/java';
+var port = 8080;
 
-        new PortAwaiter(8080, 5).await(cb);
+function Server() {
+    var proc;
+
+    this.start = function(filename, cb) {
+        proc = spawn(java, ['-jar', filename, port]);
+
+        new PortAwaiter(port, 10).await(cb);
     };
 
+    this.stop = function() {
+        console.log('Stopping the server');
+        proc.kill('SIGINT');
+    }
 }
 
 function PortAwaiter(port, timeout) {
@@ -20,10 +29,10 @@ function PortAwaiter(port, timeout) {
             if (numTries <= 1)
                 cb();
             else
-                setTimeout(function() { retry(numTries - 1, cb); }, 1000);
+                setTimeout(function() { retry(numTries - 1, cb); }, 500);
         }
 
-        http.get('http://localhost:' + port + '/index.html', function (res) {
+        http.get('http://localhost:' + port + '/', function (res) {
             console.log("Got response: " + res.statusCode);
 
             cb();

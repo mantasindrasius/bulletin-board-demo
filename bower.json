@@ -12,6 +12,7 @@
     "promise-js": "*",
     "chai": "*",
     "diff-dom": "*",
-    "sinon": "*"
+    "sinon": "*",
+    "jquery": "*"
   }
 }

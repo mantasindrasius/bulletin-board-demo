@@ -12,10 +12,12 @@ var HttpClient = function(baseUrl) {
     };
 
     this.request = function(method, relative, data, contentType) {
+        var url = baseUrl + relative;
+        console.log(method + ' ' + url);
+
         return new Promise(function(fulfill, reject) {
 
             var xhr = new XMLHttpRequest();
-            var url = baseUrl + relative;
 
             xhr.onreadystatechange = function () {
                 if (this.readyState == 4) {
@@ -42,6 +44,8 @@ var HttpClient = function(baseUrl) {
 
     function handleContent(xhr, fulfill) {
         var contentType = xhr.getResponseHeader('Content-Type');
+
+        console.log(contentType, xhr.responseText);
 
         if (/^\s*text\/html\s*(?:;|$)/i.test(contentType)) {
             var parser = new DOMParser();
