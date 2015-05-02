@@ -1,5 +1,5 @@
-<div>{title}</div>
 <div id="board-sections">
+    <div>{title}</div>
     {#sections}
         <div>{title}</div>
     {/sections}

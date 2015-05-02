@@ -107,4 +107,8 @@ gulp.task('run-server-e2e', function(done) {
     }, done);
 });
 
+gulp.task('all', ['test'], function(done) {
+    gulp.start('server-e2e', done)
+});
+
 gulp.task('default', ['test']);

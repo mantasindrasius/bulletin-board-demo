@@ -8,6 +8,8 @@ import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -45,12 +47,20 @@ public class IOHandler implements ReadListener, WriteListener
 
         if (req.getMethod().equals("GET")) {
             try {
-                JSPage page = pageFactory.getPage("front");
+                if (path.startsWith("js/") || path.startsWith("bower_components/")) {
+                    result = getFile(path);
+                    responseContentType = "application/javascript";
+                } else if (path.startsWith("api/")) {
+                    result = pageFactory.getHandler("api").handle(request.getMethod(), path, null);
+                    responseContentType = "application/json";
+                } else {
+                    JSPage page = pageFactory.getPage("front");
 
-                page.setState(path);
+                    page.setState(path);
 
-                result = page.renderAsync();
-                responseContentType = "text/html";
+                    result = page.renderAsync();
+                    responseContentType = "text/html";
+                }
             } catch (JSPageException e) {
                 e.printStackTrace();
                 result = CompletableFuture.completedFuture("ERROR");
@@ -106,5 +116,15 @@ public class IOHandler implements ReadListener, WriteListener
     {
         failure.printStackTrace();
         asyncContext.complete();
+    }
+
+    private Future<String> getFile(String path) {
+        return CompletableFuture.supplyAsync(() -> {
+            try {
+                return new String(Files.readAllBytes(Paths.get(path)));
+            } catch (IOException e) {
+                throw new IllegalStateException("Error", e);
+            }
+        });
     }
 }

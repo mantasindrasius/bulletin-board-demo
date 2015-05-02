@@ -7,19 +7,16 @@ public class DAOs {
     private static BoardDAO boardDAO;
     private static SessionDAO sessionDAO;
 
-    public static BoardDAO boardDAO() {
-        if (boardDAO == null) {
-            boardDAO = new BoardDAO();
-        }
+    static {
+        boardDAO = new BoardDAO();
+        sessionDAO = new SessionDAO();
+    }
 
+    public static BoardDAO boardDAO() {
         return boardDAO;
     }
 
     public static SessionDAO sessionDAO() {
-        if (sessionDAO == null) {
-            sessionDAO = new SessionDAO();
-        }
-
         return sessionDAO;
     }
 }

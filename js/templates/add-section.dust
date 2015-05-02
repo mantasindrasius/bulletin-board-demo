@@ -1,0 +1,6 @@
+<div id="add-section">
+    <label>Title <input class="section-title-input" /></label>
+    <div>
+        <button class="add-section-button">Add</button>
+    </div>
+</div>

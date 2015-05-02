@@ -17,7 +17,9 @@ public class SessionDAO {
 
         if (boardSessions == null) {
             synchronized (sessions) {
-                if (sessions.get(boardId) == null) {
+                boardSessions = sessions.get(boardId);
+
+                if (boardSessions == null) {
                     boardSessions = new ConcurrentHashMap();
 
                     sessions.put(boardId, boardSessions);
