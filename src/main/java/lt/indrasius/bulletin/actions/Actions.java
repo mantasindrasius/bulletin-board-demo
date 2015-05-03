@@ -17,4 +17,8 @@ public class Actions {
     public static GetSessionsAction getSessions() {
         return new GetSessionsAction(DAOs.sessionDAO());
     }
+
+    public static AddSectionAction addSection() {
+        return new AddSectionAction(DAOs.boardDAO());
+    }
 }

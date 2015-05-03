@@ -83,6 +83,17 @@ class ServerIT extends SpecWithJUnit with ResponseMatchers with Matchers {
       responseFor("api/boards", body) must haveId
     }
 
+    "accept a section create request" in new Context {
+      val boardId = givenBoardExists {
+        new Board("Cool Board",
+          Array(
+            new Section("Section 1", "Cool description")))
+      }
+
+      responseFor(s"api/boards/${boardId.id}/sections", """{"title":"Cool","description":"X"}""") must haveId
+      responseFor(s"api/boards/${boardId.id}") must hasSection("Cool", "X")
+    }
+
     "respond with the Board data" in new Context {
       val body = """{"title":"Hello","sections":[{"title":"Cool","description":"X"}]}"""
 

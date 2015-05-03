@@ -83,18 +83,21 @@ function FrontPage(context, state) {
 
     function addSectionTo(section) {
         return function(currentBoard) {
-            currentBoard.sections.push(section);
-            board = currentBoard;
+            return service.addSection(state, section).then(function(sectionRef) {
+                section.sectionId = sectionRef.id;
+                currentBoard.sections.push(section);
+                board = currentBoard;
 
-            sectionsView.render(Promise.resolve(board)).then(function(html) {
-                var div = document.createElement('div');
-                div.innerHTML = html;
+                sectionsView.render(Promise.resolve(board)).then(function(html) {
+                    var div = document.createElement('div');
+                    div.innerHTML = html;
 
-                var elmToReplace = div.firstChild;
+                    var elmToReplace = div.firstChild;
 
-                var boardSections = document.getElementById('board-sections')
+                    var boardSections = document.getElementById('board-sections');
 
-                boardSections.parentNode.replaceChild(elmToReplace, boardSections);
+                    boardSections.parentNode.replaceChild(elmToReplace, boardSections);
+                });
             });
         }
     }

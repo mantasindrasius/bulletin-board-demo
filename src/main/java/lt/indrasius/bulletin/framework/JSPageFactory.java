@@ -62,7 +62,8 @@ public class JSPageFactory {
             ApiService service = new ApiService(
                     Actions.getBoard(),
                     Actions.getSessions(),
-                    Actions.storeBoard());
+                    Actions.storeBoard(),
+                    Actions.addSection());
 
             engine.put("service", wrapper.wrap(service));
 

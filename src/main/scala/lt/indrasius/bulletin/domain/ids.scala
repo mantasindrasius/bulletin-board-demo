@@ -14,3 +14,9 @@ case class BoardId(@BeanProperty id: String)
 case object BoardId extends IdHelper[BoardId] {
   def create = BoardId(UUID.randomUUID().toString)
 }
+
+case class SectionId(@BeanProperty id: String)
+
+case object SectionId extends IdHelper[SectionId] {
+  def create = SectionId(UUID.randomUUID().toString)
+}
